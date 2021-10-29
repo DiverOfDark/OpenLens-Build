@@ -28,21 +28,31 @@ jobs:
         with:
               node-version: '14'
 
-      - name: Clone openwrt
+      - name: Clone openlens
         run: git clone https://github.com/lensapp/lens.git
 
 
-      - name: build
+      - name: prepare
         run: |
-          cd lens
           sudo dpkg --add-architecture i386
           sudo apt update
           sudo apt install -y wine32 wine zip
           npm install -g yarn
+
+      - name: install
+        run: |
+          cd lens
           yarn install
           yarn run download-bins
+
+      - name: build
+        run: |
+          cd lens
           yarn run build:win
 
+      - name: pack
+        run: |
+          cd lens
           cd dist
           zip -r win-dist win-unpacked
 
