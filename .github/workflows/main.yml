@@ -46,7 +46,7 @@ jobs:
           cd dist
           zip -r win-dist win-unpacked
 
-          echo "name=VERSION_TAG::`git rev-parse --short HEAD`" >> $GITHUB_ENV
+          echo "VERSION_TAG=`git rev-parse --short HEAD`" >> $GITHUB_ENV
 
 
       - name: Create Release
@@ -55,8 +55,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{env.VERSION_TAG}}.$GITHUB_RUN_NUMBER 
-          release_name: Release ${{env.VERSION_TAG}}.$GITHUB_RUN_NUMBER 
+          tag_name: $VERSION_TAG.$GITHUB_RUN_NUMBER
+          release_name: Release $VERSION_TAG.$GITHUB_RUN_NUMBER
           draft: false
           prerelease: false
       - name: Upload Release Asset
