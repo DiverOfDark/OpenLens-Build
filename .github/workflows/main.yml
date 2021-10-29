@@ -35,9 +35,9 @@ jobs:
       - name: build
         run: |
           cd lens
-          dpkg --add-architecture i386
-          apt update
-          apt install -y wine32 wine zip
+          sudo dpkg --add-architecture i386
+          sudo apt update
+          sudo apt install -y wine32 wine zip
           npm install -g yarn
           yarn install
           yarn run download-bins
