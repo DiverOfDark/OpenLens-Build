@@ -1,0 +1,72 @@
+name: Build latest version
+
+on:
+  schedule:
+   - cron:  '0 0 * * 0'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+#      - name: free up disk space
+#        run: |
+#          sudo apt-get -qq purge build-essential ghc*
+#          sudo apt-get clean
+#          docker system prune -af
+#
+#          sudo rm -rf "/usr/local/share/boost"
+#          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+#          sudo rm -rf /usr/local/*
+#          sudo mkdir /mnt/ccache
+#          df -h
+          
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+              node-version: '16'
+              cache: 'npm'
+
+      - name: Clone openwrt
+        run: git clone https://github.com/lensapp/lens.git
+
+
+      - name: build
+        run: |
+          cd lens
+          dpkg --add-architecture i386
+          apt update
+          apt install -y wine32 wine zip
+          npm install -g yarn
+          yarn install
+          yarn run download-bins
+          yarn run build:win
+
+          cd dist
+          zip -r win-dist win-unpacked
+
+          echo "::set-env name=VERSION_TAG::`git rev-parse --short HEAD`"
+
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{env.VERSION_TAG}}.$GITHUB_RUN_NUMBER 
+          release_name: Release ${{env.VERSION_TAG}}.$GITHUB_RUN_NUMBER 
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./lens/dist/win-dist.zip
+          asset_name: dist.zip
+          asset_content_type: application/zip
