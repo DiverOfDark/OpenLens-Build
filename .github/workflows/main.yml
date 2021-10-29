@@ -46,7 +46,7 @@ jobs:
           cd dist
           zip -r win-dist win-unpacked
 
-          echo "::set-env name=VERSION_TAG::`git rev-parse --short HEAD`"
+          echo "name=VERSION_TAG::`git rev-parse --short HEAD`" >> $GITHUB_ENV
 
 
       - name: Create Release
