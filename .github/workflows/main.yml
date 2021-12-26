@@ -36,6 +36,8 @@ jobs:
           sudo add-apt-repository ppa:cybermax-dexter/sdl2-backport
           sudo apt-add-repository "deb https://dl.winehq.org/wine-builds/ubuntu $(lsb_release -cs) main"
           sudo apt update
+          sudo apt dist-upgrade
+          sudo apt autoremove
           sudo apt install -y --install-recommends --allow-change-held-packages winehq-stable 
           sudo apt install -y --install-recommends zip
           npm install -g yarn
