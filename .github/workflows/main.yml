@@ -36,7 +36,7 @@ jobs:
         run: |
           sudo dpkg --add-architecture i386
           sudo apt update
-          sudo apt install -y wine-stable wine64 wine32:i386 libwine:i386 libfaudio0:i386 libglib2.0-0:i386 libgstreamer-plugins-base1.0-0:i386 libgstreamer1.0-0:i386 zip
+          sudo apt install -y wine-stable wine64 wine32:i386 libwine:i386 libfaudio0:i386 libglib2.0-0:i386 libgstreamer-plugins-base1.0-0:i386 libgstreamer1.0-0:i386 libmount1:i386 libselinux1:i386 zip
           npm install -g yarn
 
       - name: install
