@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
 #      - name: free up disk space
@@ -35,7 +35,7 @@ jobs:
           sudo apt-key add winehq.key
           sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main'
           sudo apt update
-          sudo apt install -y wine-stable wine64 wine32:i386 zip
+          sudo apt install -y --install-recommends winehq-stable zip
           npm install -g yarn
 
       - name: Clone openlens
