@@ -36,7 +36,7 @@ jobs:
         run: |
           sudo dpkg --add-architecture i386
           sudo apt update
-          sudo apt install -y wine32 wine zip
+          sudo apt install -t testing -y wine32 wine zip
           npm install -g yarn
 
       - name: install
