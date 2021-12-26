@@ -38,7 +38,9 @@ jobs:
           sudo apt update
           sudo apt autoremove -y
           sudo apt autoclean -y
-          sudo apt install -f -y wine-stable wine64 wine32:i386 zip
+          sudo apt install -f
+          sudo apt upgrade -y          
+          sudo apt install -y wine-stable wine64 wine32:i386 zip
           npm install -g yarn
 
       - name: install
