@@ -62,7 +62,7 @@ jobs:
           cd dist
           zip -r win-dist win-unpacked
 
-          echo "VERSION_TAG=`git rev-parse --short HEAD`.$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+          echo "VERSION_TAG=$GITHUB_RUN_NUMBER.`git rev-parse --short HEAD`" >> $GITHUB_ENV
 
 
       - name: Create Release
